@@ -4,8 +4,8 @@ const fs    = require('fs')
 const https = require('https')
 const querystring = require('querystring');
 
-var privateKey  = fs.readFileSync('/etc/letsencrypt/live/coturn.demo.ixm.ca/privkey.pem', 'utf8')
-var certificate = fs.readFileSync('/etc/letsencrypt/live/coturn.demo.ixm.ca/fullchain.pem', 'utf8')
+var privateKey  = fs.readFileSync('/etc/letsencrypt/live/<yourserver>/privkey.pem', 'utf8')
+var certificate = fs.readFileSync('/etc/letsencrypt/live/<yourserver>/fullchain.pem', 'utf8')
 
 const httpsServer = https.createServer({ key: privateKey, cert: certificate })
 
