@@ -4,7 +4,7 @@
   "version": "9.11.0",
   "author": {
     "name": "Oleksandr Kuksenkoo",
-    "email": "oleksandrk@imagexmedia.com ",
+    "email": "oleksandrk@imagexmedia.com "
   },
   "bugs": {
     "url": "https://github.com/feross/simple-peer/issues"
@@ -67,5 +67,5 @@
     "test-browser-local": "airtap --coverage --preset local -- test/*.js",
     "test-node": "WRTC=wrtc tape test/*.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
-  },
+  }
 }
