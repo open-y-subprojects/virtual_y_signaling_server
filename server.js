@@ -87,7 +87,7 @@ server.on('connection', function (socket, req) {
   socket.on('close', function () {
     meeting.setByRole(isInstructorRole, undefined)
   })
-]
+
   function onMessage (message) {
     console.log('on message from', isInstructorRole ? 'instructor':'customer')
     meeting.sendMessageToPartner(isInstructorRole, message)
