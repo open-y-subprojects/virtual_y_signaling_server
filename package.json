@@ -16,7 +16,8 @@
     "get-browser-rtc": "^1.1.0",
     "queue-microtask": "^1.2.3",
     "randombytes": "^2.1.0",
-    "readable-stream": "^3.6.0"
+    "readable-stream": "^3.6.0",
+    "dotenv": "^16.0.3"
   },
   "devDependencies": {
     "airtap": "^4.0.3",
