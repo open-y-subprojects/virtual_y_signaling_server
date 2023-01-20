@@ -3,9 +3,13 @@ const ws    = require('ws')
 const fs    = require('fs')
 const https = require('https')
 const querystring = require('querystring');
+require('dotenv').config()
 
-var privateKey  = fs.readFileSync('/etc/letsencrypt/live/<yourserver>/privkey.pem', 'utf8')
-var certificate = fs.readFileSync('/etc/letsencrypt/live/<yourserver>/fullchain.pem', 'utf8')
+const privateKeyPath = process.env.PRIVATE_KEY_PATH
+const certificatePath = process.env.CERTIFICATE_PATH
+
+let privateKey  = fs.readFileSync(privateKeyPath, 'utf8')
+let certificate = fs.readFileSync(certificatePath, 'utf8')
 
 const httpsServer = https.createServer({ key: privateKey, cert: certificate })
 

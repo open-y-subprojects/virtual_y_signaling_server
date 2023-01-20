@@ -1,0 +1,66 @@
+version: "3"
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+    ports:
+      - "0.0.0.0:8091:8091"
+    environment:
+      - DOMAIN=${DOMAIN}
+      - PRIVATE_KEY_PATH=${PRIVATE_KEY_PATH}
+      - CERTIFICATE_PATH=${CERTIFICATE_PATH}
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    labels:
+      ofelia.enabled: "true"
+      # Restart app every day at 00:00
+      ofelia.job-exec.app.schedule: "0 0 * * *"
+      ofelia.job-exec.app.command: "killall node"
+
+  certbot:
+    image: certbot/certbot
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/www/certbot:/var/www/certbot
+      - /var/lib/letsencrypt:/var/lib/letsencrypt
+      - /var/log/letsencrypt:/var/log/letsencrypt
+    entrypoint: ''
+    command: sleep infinity
+    environment:
+      - DOMAIN=${DOMAIN}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    labels:
+      ofelia.enabled: "true"
+      # Renew certificate every 12 hours
+      ofelia.job-exec.certbot.schedule: "@every 12h"
+      ofelia.job-exec.certbot.command: "certbot renew --quiet --no-self-upgrade"
+
+  ofelia:
+    image: mcuadros/ofelia:latest
+    depends_on:
+      - app
+      - certbot
+    command: daemon --docker
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
